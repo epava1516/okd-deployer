@@ -1,0 +1,54 @@
+---
+  - name: Update system
+    yum:
+      name: "*"
+
+  - name: epel-release install
+    yum:
+      name: epel-release
+  
+  - name: Install basic services for okd-services
+    yum:
+      name: 
+        - bind
+        - bind-utils
+        - haproxy
+        - httpd
+        - firewalld
+        - nfs-utils
+
+  - name: Start and enable services
+    systemd:
+      name: "{{ item }}"
+    with_items:
+      - firewalld
+      - httpd
+      - named
+      - haproxy
+#      - nfs-server
+      - rpcbind
+  
+  - name: Configure firewalld ports
+    firewalld:
+      port: "{{ item.port }}"
+    with_items:
+      - port: 8080/tcp
+      - port: 6443/tcp
+      - port: 22623/tcp
+      - port: 3389/tcp
+      - port: 53/udp
+        zone: public
+
+  - name: Configure firewalld services
+    firewalld:
+      service: "{{ item.name }}"
+    with_items:
+      - name: mountd
+        zone: public
+      - name: rpc-bind
+        zone: public
+      - name: nfs
+        zone: public
+      - name: http
+      - name: https
+...

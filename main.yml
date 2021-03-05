@@ -1,0 +1,18 @@
+---
+  - hosts: all
+    become: yes
+    gather_facts: false
+    module_defaults:
+      - yum:
+          state: latest
+      - firewalld:
+          zone: "{{ item.zone | default(omit) }}"
+          permanent: yes
+          immediate: yes
+          state: enabled
+      - systemd:
+          state: restarted
+          enabled: yes
+    roles:
+      - role: common
+...
