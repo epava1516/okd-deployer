@@ -1,0 +1,11 @@
+---
+  - name: Configure BIND (named.conf)
+    template:
+      src: named.conf.j2
+      dst: /etc/named.conf
+
+  - name: Configure BIND (named.conf.local)
+    template:
+      src: named.conf.local.j2
+      dst: /etc/named/named.conf.local
+...

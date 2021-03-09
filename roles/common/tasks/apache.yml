@@ -1,0 +1,7 @@
+---
+  - name: Set sebool
+    seboolean:
+      name: httpd_read_user_content
+      state: yes
+      persistent: yes
+...

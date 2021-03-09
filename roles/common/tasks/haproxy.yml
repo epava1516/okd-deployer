@@ -1,0 +1,12 @@
+---
+  - name: Configure HAProxy
+    template:
+      src: haproxy.cfg.j2
+      dst: /etc/haproxy/haproxy.cfg
+  
+  - name: Set sebool
+    seboolean:
+      name: haproxy_connect_any
+      state: yes
+      persistent: yes
+...
